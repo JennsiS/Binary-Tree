@@ -11,64 +11,43 @@ import java.util.Queue;
  * baeldung. (20 de diciembre del 2018). Implementing a Binary Tree in Java. Extraido de: https://www.baeldung.com/java-binary-tree
  * GeeksforGeeks. (2019). Compare two Strings in Java. Extraido de: https://www.geeksforgeeks.org/compare-two-strings-in-java/
  * */
-class Node {
-   Association <String,String> value;
-    Node left;
-    Node right;
- 
-    Node(  Association <String,String>value) {
+  
+
+public class BinaryTree {
+    Palabras <String,String> value;
+    BinaryTree left;
+    BinaryTree right;
+    BinaryTree root;
+    
+      public BinaryTree(Palabras <String,String>  value) {
         this.value = value;
         right = null;
         left = null;
     }
-}
-public class BinaryTree {
- 
-    Node root;
- 
     
-    private Node addRecursive(Node current, Association <String,String> value) // parametro de asociacion 
-    {
-        int num= stringCompare(current.value.getKey(), value.getKey() ); //metodo
-    if (current == null) {
-        return new Node(value);
-    }
-    
-    //Si va antes osea es <0
- 
-    if (num<0) {
-        current.left = addRecursive(current.left, value);
-        
-       // Lo agrega a la derecha 
-    } else if (num>0) {
-        current.right = addRecursive(current.right, value);
-    } else {
+    private  BinaryTree addRecursive( BinaryTree current, Palabras <String,String>  value) {
+       int num=stringCompare(current.value.getKey(), value.getKey());
+        if (value == null) {
+             new BinaryTree(value);
+        }
+        else if (num<0){
+            current.left = addRecursive(current.left, value);
+       }else if (num>0){
+           current.right = addRecursive(current.right, value);
+       }else{
         // value already exists
         return current;
+    }  
+       return current;
     }
- 
-    return current;
-}
-    public void add(Association <String,String> value) {
+    public void add(Palabras <String,String> value) {
     root = addRecursive(root, value);
 }
     
- /*   private boolean containsNodeRecursive(Node current, String value) {
-    if (current == null) {
-        return false;
-    } 
-    if (value == current.value) {
-        return true;
-    } 
-    return value < current.value
-      ? containsNodeRecursive(current.left, value)
-      : containsNodeRecursive(current.right, value);
-}*/
- /* public boolean containsNode(int value) {
-    return containsNodeRecursive(root, value);
-}*/
-/*
-    private Node deleteRecursive(Node current, String value) {
+   
+ /*
+
+    private Nodo deleteRecursive(Nodo current, int value) {
         if (current == null) {
             return null;
         }
@@ -84,33 +63,31 @@ public class BinaryTree {
         current.right = deleteRecursive(current.right, value);
         return current;
     }
-
-    public void delete(String value) {
-        root = deleteRecursive(root, value);
-    }
 */
-    public void traverseInOrder(Node node) {
-        if (node != null) {
-            traverseInOrder(node.left);
-            System.out.print(" " + node.value);
-            traverseInOrder(node.right);
-        }
-    }
-    public void traversePreOrder(Node node) {
-        if (node != null) {
-            System.out.print(" " + node.value);
-            traversePreOrder(node.left);
-            traversePreOrder(node.right);
-        }
-    }
-    public void traversePostOrder(Node node) {
-        if (node != null) {
-            traversePostOrder(node.left);
-            traversePostOrder(node.right);
-            System.out.print(" " + node.value);
-        }
-    }
+    
 
+    public void traverseInOrder( BinaryTree tree) {
+        if (tree != null) {
+            traverseInOrder(tree.left);
+            System.out.print(" " + tree.value);
+            traverseInOrder(tree.right);
+        }
+    }
+    public void traversePreOrder(BinaryTree tree) {
+        if (tree != null) {
+            System.out.print(" " + tree.value);
+            traversePreOrder(tree.left);
+            traversePreOrder(tree.right);
+        }
+    }
+    public void traversePostOrder( BinaryTree tree) {
+        if (tree != null) {
+            traversePostOrder(tree.left);
+            traversePostOrder(tree.right);
+            System.out.print(" " + tree.value);
+        }
+    }
+/*
     public void traverseLevelOrder() {
         if (root == null) {
             return;
@@ -133,6 +110,23 @@ public class BinaryTree {
                 nodes.add(node.right);
             }
         }
+    }
+    */
+    
+    public String findInOrder(BinaryTree tree, String toLookFor) {
+        String foundSomething = "not found";
+
+        if (tree != null) {
+            if (tree.value.getKey().equals(toLookFor)){
+                return tree.value.getValue();
+            }else {
+                foundSomething = findInOrder(tree.left, toLookFor);
+                if (foundSomething.compareTo("not found") == 0){
+                    foundSomething = findInOrder(tree.right, toLookFor);
+                }
+            }
+        }
+        return foundSomething;
     }
     
      public static int stringCompare(String str1, String str2) 
@@ -163,6 +157,6 @@ public class BinaryTree {
         } 
     } 
     
-    
+   
     
     }

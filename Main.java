@@ -13,29 +13,36 @@ public class Main {
         // TODO code application logic here
         
        
-        BinaryTree arbol= new BinaryTree();
+       
          try{
                 String dicc= null;
                 String ingles= null;
                 String espa= null;
                 String nombre= "";
                 String temp="";
+                int cont=0;
            
-                FileReader fileReader = new FileReader("C:\\Users\\bff_n_000\\Desktop\\diccionario.txt");
+                FileReader fileReader = new FileReader("diccionario.txt");
                 BufferedReader doc = new BufferedReader(fileReader);
                 while((dicc = doc.readLine()) != null) {
-                Association  asociacion= new Association();
+                Palabras asociacion= new Palabras();
                 ingles= dicc.substring(dicc.indexOf("(")+1, dicc.indexOf(","));
                 espa=dicc.substring(dicc.indexOf(",")+1, dicc.indexOf(")"));
                 asociacion.put(ingles,espa);
                 System.out.println(ingles);
                 System.out.println(espa);
-                arbol.add(asociacion);
+                BinaryTree arbol= new BinaryTree(asociacion);
+                    if (cont==0){
+                     arbol.add(asociacion);
+                    }else{
+                      arbol.add(asociacion);
+                    }
+                
                 temp = temp + dicc + "\n";
+                cont++;
                 }
                  doc.close();
-               // arbol.traverseInOrder(asociacion);
-                System.out.println(arbol);
+               // arbol.traverseInOrder(asociacion)
              
         }
             catch(FileNotFoundException ex) {
