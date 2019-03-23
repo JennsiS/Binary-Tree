@@ -6,17 +6,17 @@ import java.util.Queue;
  * @Carne 18962,18731
  * @date 19/03/19
  * @name BinaryTree.java
- * <p>Clase que permite la implementacion de un binary tree </p>
+ * <p>Clase que permite la implementacion de un binary tree, en el tiene metodos de insercion y de busquedad </p>
  * Fuentes utilizada:
  * baeldung. (20 de diciembre del 2018). Implementing a Binary Tree in Java. Extraido de: https://www.baeldung.com/java-binary-tree
  * GeeksforGeeks. (2019). Compare two Strings in Java. Extraido de: https://www.geeksforgeeks.org/compare-two-strings-in-java/
  * */
 
 class Nodo{
-	Palabras <String,String> value;
+	Association <String,String> value;
 	Nodo left;
 	Nodo right;	
-	public Nodo(Palabras <String,String>  value){
+	public Nodo(Association <String,String>  value){
 		this.value = value;
 		left = null;
 		right = null;
@@ -25,11 +25,25 @@ class Nodo{
 
 public class BinaryTree 
 {
+
+    /**
+     *
+     */
     public static  Nodo root;
-	public BinaryTree(){
+
+    /**
+     *Constructor de la clase
+     */
+    public BinaryTree(){
 		this.root = null;
 	}
         
+    /**
+     * Metodo que compara dos Strings para ordenarlos en orden alfabetico
+     * @param str1, de tipo String
+     * @param str2, de tipo String
+     * @return Devuelve -1 si el primer string va antes que el primero, 1 si estan bien ordenados y 0 si son iguales
+     */
     public static int stringCompare(String str1, String str2) 
     {
         int l1 = str1.length(); 
@@ -57,8 +71,11 @@ public class BinaryTree
         } 
     } 
     
-    
-    public void add(Palabras <String,String> value)
+    /**
+     *Metodo que permite insertar una asociacion de palabras al arbol
+     * @param value, es de tipo palabras, es decir la asociacion de dos palabras e ingles y español
+     */
+    public void add(Association <String,String> value)
     {
 		Nodo newNodo = new Nodo(value);
 		if(root==null)
@@ -78,7 +95,7 @@ public class BinaryTree
 					parent.left = newNodo;
 					return;
 				}
-			}else
+			}else if (num>0)
 			{
 				current = current.right;
 				if(current==null)
@@ -89,7 +106,42 @@ public class BinaryTree
 			}
 		}
 	}
+   
     
+    /**
+     *
+     * @param node, de tipo Nodo. Es un nodo del arbol
+     * @param toLookFor, de tipo String y es la variable que se desea buscar en el arbol
+     * @return devuelve lo que encontro, y si no encontro nada devuelve el mismo string ingresado
+     */
+    public String findInOrder(Nodo node, String toLookFor) {
+        String found= "not found";
+
+        if (node != null) {
+            if (node.value.getKey().compareTo(toLookFor) == 0){
+                return node.value.getValue();
+            }else {
+                found = findInOrder(node.left, toLookFor);
+                if (found.compareTo("not found") == 0){
+                    found = findInOrder(node.right, toLookFor);
+                }
+            }
+        }
+        return found;
+    }
+    
+    /**
+     *
+     * @param node, tipo Nodo
+     */
+    public void traverseInOrder(Nodo node){
+        if (node != null){
+            traverseInOrder(node.left);
+            System.out.println(node.value.getKey());
+            traverseInOrder(node.right);
+        }
+
+    }
 
 }
  

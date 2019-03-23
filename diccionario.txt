@@ -1,0 +1,2 @@
+(work,trabajo)
+(dog,perro)
